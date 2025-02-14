@@ -47,6 +47,10 @@ def extract_text_from_pdf(pdf_file):
         text += page.extract_text() + ' '
     return text.strip()
 
+@app.get("/")
+def read_root():
+    return {"message": "Hello, World!"}
+
 @app.post("/match_jobs/")
 async def match_jobs(file: UploadFile = File(...)):
     file_bytes = await file.read()
