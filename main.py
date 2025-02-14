@@ -10,7 +10,8 @@ from sentence_transformers import SentenceTransformer, util
 import PyPDF2
 import numpy as np
 import io
-
+import uvicorn
+import os
 # Initialize FastAPI
 app = FastAPI()
 
@@ -59,3 +60,7 @@ async def match_jobs(file: UploadFile = File(...)):
     top_matches = df.sort_values(by='similarity', ascending=False).head(5)
     
     return top_matches[["title", "company_name", "location", "similarity"]].to_dict(orient="records")
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Get PORT from Render, default to 8000
+    uvicorn.run(app, host="0.0.0.0", port=port)
